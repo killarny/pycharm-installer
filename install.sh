@@ -11,6 +11,10 @@ rm -rf $workdir
 mkdir $workdir
 pip install selenium
 python -c "from selenium import webdriver; browser = webdriver.Firefox(); browser.get('https://www.jetbrains.com/pycharm/download/download-thanks.html?platform=linux'); url = browser.find_element_by_link_text('direct link').get_attribute('href'); browser.quit(); print(url)" >> $workdir/__pycharm_url.txt
+if [ ! -s $workdir/__pycharm_url.txt ]; then
+    >&2 echo "Unable to retrieve the PyCharm url."
+    exit 1
+fi
 curl -#L $(cat $workdir/__pycharm_url.txt) | tar zx
 mv pycharm* $workdir/unpacked
 
