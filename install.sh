@@ -3,6 +3,8 @@
 echo "Downloading latest PyCharm release.."
 echo "  (this may show a browser window for a few seconds, be patient)"
 pycharm=${HOME}/.PyCharm2016.1
+java_userprefs=${HOME}/.java/.userPrefs/jetbrains
+jb_share=${HOME}/.local/share/JetBrains
 workdir=${HOME}/.__pycharm_installer
 rundir=$( cd $(dirname $0) ; pwd -P )
 icon_url=http://drslash.com/wp-content/uploads/2014/07/Intellij-PyCharm.png
@@ -53,6 +55,8 @@ fi
 
 echo "Removing your old PyCharm configuration.."
 rm -rf $pycharm
+rm -rf $java_userprefs
+rm -rf $jb_share
 
 echo "Configuring PyCharm installation.."
 mkdir $pycharm
