@@ -2,7 +2,7 @@
 
 echo "Downloading latest PyCharm release.."
 echo "  (this may show a browser window for a few seconds, be patient)"
-pycharm=${HOME}/.PyCharm2016.1
+pycharm=${HOME}/.PyCharm2016.2
 java_userprefs=${HOME}/.java/.userPrefs/jetbrains
 jb_share=${HOME}/.local/share/JetBrains
 workdir=${HOME}/.__pycharm_installer
