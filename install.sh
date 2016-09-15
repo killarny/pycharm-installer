@@ -1,7 +1,5 @@
 #! /bin/bash
 
-echo "Downloading latest PyCharm release.."
-echo "  (this may show a browser window for a few seconds, be patient)"
 pycharm=${HOME}/.PyCharm2016.2
 java_userprefs=${HOME}/.java/.userPrefs/jetbrains
 jb_share=${HOME}/.local/share/JetBrains
@@ -9,36 +7,22 @@ workdir=${HOME}/.__pycharm_installer
 rundir=$( cd $(dirname $0) ; pwd -P )
 icon_url=http://drslash.com/wp-content/uploads/2014/07/Intellij-PyCharm.png
 
+echo "Preparing your environment.."
+echo "  (this may ask for a sudo password to install some requirements)"
 rm -rf $workdir
 mkdir $workdir
-pip install selenium
+sudo apt-get install -y xvfb
+pip install pyvirtualdisplay selenium
 
-#curl -#L $ff_driver | gzip -d > $workdir/wires
-#chmod +x $workdir/wires
-
-curl -#L http://chromedriver.storage.googleapis.com/2.22/chromedriver_linux64.zip -O
-unzip chromedriver_linux64.zip -d $workdir
-rm chromedriver_linux64.zip
-
-python geturl.py --webdriver_dir=$workdir
-read -p "What's the path to the file you just downloaded? " downloaded_path
-if [ ! -s $downloaded_path ]; then
-    >&2 echo "That doesn't look right. Sorry!"
+echo "Downloading latest PyCharm release.."
+echo "  (this may show a browser window for a few seconds, be patient)"
+python geturl.py >> $workdir/__pycharm_url.txt
+if [ ! -s $workdir/__pycharm_url.txt ]; then
+    >&2 echo "Unable to retrieve the PyCharm url."
     exit 1
-else
-    cd $workdir
-    tar zxf $downloaded_path
-    mv pycharm* $workdir/unpacked
-    cd -
 fi
-
-#python geturl.py --webdriver_dir=$workdir >> $workdir/__pycharm_url.txt
-#if [ ! -s $workdir/__pycharm_url.txt ]; then
-#    >&2 echo "Unable to retrieve the PyCharm url."
-#    exit 1
-#fi
-#curl -#L $(cat $workdir/__pycharm_url.txt) | tar zx
-#mv pycharm* $workdir/unpacked
+curl -#L $(cat $workdir/__pycharm_url.txt) | tar zx
+mv pycharm* $workdir/unpacked
 
 # TODO: improve this check for java
 if [ -f /etc/apt/sources.list.d/webupd8team-java.list ]; then
