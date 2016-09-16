@@ -52,12 +52,12 @@ echo "Installing your plugins and bundles.."
 # install plugins
 mkdir -p $pycharm/config/plugins
 cd $pycharm/config/plugins
-. $rundir/install_plugin.sh https://plugins.jetbrains.com/plugin/7275
-. $rundir/install_plugin.sh https://plugins.jetbrains.com/plugin/7495
-. $rundir/install_plugin.sh https://plugins.jetbrains.com/plugin/5970
-. $rundir/install_plugin.sh https://plugins.jetbrains.com/plugin/4230
-. $rundir/install_plugin.sh https://plugins.jetbrains.com/plugin/7315
-. $rundir/install_plugin.sh https://plugins.jetbrains.com/plugin/7724
+wget --trust-server-names $(python $rundir/geturl.py --plugin 7275)
+wget --trust-server-names $(python $rundir/geturl.py --plugin 7495)
+wget --trust-server-names $(python $rundir/geturl.py --plugin 5970)
+wget --trust-server-names $(python $rundir/geturl.py --plugin 4230)
+wget --trust-server-names $(python $rundir/geturl.py --plugin 7315)
+wget --trust-server-names $(python $rundir/geturl.py --plugin 7724)
 find . -name '*.zip' -print0 | xargs -0 -I {} -P 10 unzip -qq {}
 cd -
 
