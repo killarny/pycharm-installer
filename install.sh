@@ -12,7 +12,7 @@ echo "  (this may ask for a sudo password to install some requirements)"
 rm -rf $workdir
 mkdir $workdir
 sudo apt-get install -y xvfb
-pip install pyvirtualdisplay selenium
+pip install pyvirtualdisplay selenium==2.53.1
 
 echo "Downloading latest PyCharm release.."
 echo "  (this may show a browser window for a few seconds, be patient)"
