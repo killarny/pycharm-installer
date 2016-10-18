@@ -30,9 +30,13 @@ class HiddenDisplay:
             pass
 
 
+class Browser(webdriver.Firefox):
+    pass
+
+
 def get_plugin_url(id, plugin_url):
     HiddenDisplay.start()
-    browser = webdriver.Firefox()
+    browser = Browser()
     browser.get(plugin_url.format(id=id))
     url = (browser.find_element_by_class_name('_download')
            .find_element_by_tag_name('a')
@@ -44,7 +48,7 @@ def get_plugin_url(id, plugin_url):
 
 def get_url(pycharm_url):
     HiddenDisplay.start()
-    browser = webdriver.Firefox()
+    browser = Browser()
     browser.get(pycharm_url)
     url = browser.find_element_by_link_text('direct link').get_attribute('href')
     browser.quit()
