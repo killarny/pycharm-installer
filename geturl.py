@@ -30,8 +30,13 @@ class HiddenDisplay:
             pass
 
 
-class Browser(webdriver.Firefox):
-    pass
+class Browser(webdriver.Chrome):
+    def __init__(self, directory='.'):
+        opts = webdriver.ChromeOptions()
+        opts.add_experimental_option("prefs",
+            {"download.default_directory": directory,
+             "download.prompt_for_download": False})
+        super(Browser, self).__init__(chrome_options=opts)
 
 
 def get_plugin_url(id, plugin_url):
@@ -46,20 +51,17 @@ def get_plugin_url(id, plugin_url):
     return url
 
 
-def get_url(pycharm_url):
-    HiddenDisplay.start()
-    browser = Browser()
+def download_pycharm(pycharm_url, directory='.'):
+    browser = Browser(directory=directory)
     browser.get(pycharm_url)
-    url = browser.find_element_by_link_text('direct link').get_attribute('href')
     browser.quit()
-    HiddenDisplay.stop()
-    return url
 
 
 if __name__ == '__main__':
     parser = ArgumentParser(description='specify a plugin ID to get the '
                                         'download URL for that, or nothing to '
-                                        'get the main PyCharm download URL')
+                                        'download the latest PyCharm')
+    parser.add_argument('--directory', default='.')
     parser.add_argument('--plugin', type=int, dest='ID')
     parser.add_argument('--pycharm-url', help='default: %(default)s',
                         default='https://www.jetbrains.com/pycharm/download/'
@@ -70,5 +72,5 @@ if __name__ == '__main__':
     if opts.ID:
         print(get_plugin_url(opts.ID, opts.plugin_url))
     else:
-        print(get_url(opts.pycharm_url))
+        download_pycharm(opts.pycharm_url, directory=opts.directory)
 

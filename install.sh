@@ -12,17 +12,25 @@ echo "  (this may ask for a sudo password to install some requirements)"
 rm -rf $workdir
 mkdir $workdir
 sudo apt-get install -y xvfb
-pip install pyvirtualdisplay selenium==2.53.1
+pip install pyvirtualdisplay selenium
 
+# install browser driver since selenium annoyingly doesn't handle that for us
+cd $workdir
+latest_driver_version=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE |cat)
+wget -q https://chromedriver.storage.googleapis.com/$latest_driver_version/chromedriver_linux64.zip
+unzip chromedriver_linux64.zip
+rm chromedriver_linux64.zip
+cd -
+
+cd $workdir
 echo "Downloading latest PyCharm release.."
-echo "  (this may show a browser window for a few seconds, be patient)"
-python geturl.py >> $workdir/__pycharm_url.txt
-if [ ! -s $workdir/__pycharm_url.txt ]; then
-    >&2 echo "Unable to retrieve the PyCharm url."
-    exit 1
-fi
-curl -#L $(cat $workdir/__pycharm_url.txt) | tar zx
+echo "  (will show a browser window; close browser when download finished)"
+PATH=$PATH:$workdir python $rundir/geturl.py --directory=$workdir
+echo "  unpacking PyCharm.."
+tar zxf pycharm*.tar.gz
+rm pycharm*.tar.gz
 mv pycharm* $workdir/unpacked
+cd -
 
 # TODO: improve this check for java
 if [ -f /etc/apt/sources.list.d/webupd8team-java.list ]; then
@@ -46,18 +54,24 @@ echo "Configuring PyCharm installation.."
 mkdir $pycharm
 
 # copy preserved configs
-cp -r config $pycharm/config
+cp -r $rundir/config $pycharm/config
 
 echo "Installing your plugins and bundles.."
 # install plugins
 mkdir -p $pycharm/config/plugins
 cd $pycharm/config/plugins
-wget --trust-server-names $(python $rundir/geturl.py --plugin 7275)
-wget --trust-server-names $(python $rundir/geturl.py --plugin 7495)
-wget --trust-server-names $(python $rundir/geturl.py --plugin 5970)
-wget --trust-server-names $(python $rundir/geturl.py --plugin 4230)
-wget --trust-server-names $(python $rundir/geturl.py --plugin 7315)
-wget --trust-server-names $(python $rundir/geturl.py --plugin 7724)
+# codeglance
+wget --trust-server-names $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7275)
+# .ignore
+wget --trust-server-names $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7495)
+# markdown navigator
+wget --trust-server-names $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7896)
+# bashsupport
+wget --trust-server-names $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 4230)
+# git flow integration
+wget --trust-server-names $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7315)
+# docker integration
+wget --trust-server-names $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7724)
 find . -name '*.zip' -print0 | xargs -0 -I {} -P 10 unzip -qq {}
 cd -
 
