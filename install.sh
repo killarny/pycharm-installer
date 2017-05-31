@@ -5,7 +5,7 @@ java_userprefs=${HOME}/.java/.userPrefs/jetbrains
 jb_share=${HOME}/.local/share/JetBrains
 workdir=${HOME}/.__pycharm_installer
 rundir=$( cd $(dirname $0) ; pwd -P )
-icon_url=http://drslash.com/wp-content/uploads/2014/07/Intellij-PyCharm.png
+icon_url=https://d3nmt5vlzunoa1.cloudfront.net/pycharm/files/2015/12/PyCharm_400x400_Twitter_logo_white.png
 
 echo "Preparing your environment.."
 echo "  (this may ask for a sudo password to install some requirements)"
