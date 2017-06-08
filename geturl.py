@@ -1,5 +1,7 @@
 from argparse import ArgumentParser
+from time import sleep
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 
 
 class HiddenDisplay:
@@ -40,12 +42,26 @@ class Browser(webdriver.Chrome):
 
 
 def get_plugin_url(id, plugin_url):
+    __plugin_url = plugin_url.format(id=id)
     HiddenDisplay.start()
     browser = Browser()
-    browser.get(plugin_url.format(id=id))
-    url = (browser.find_element_by_class_name('_download')
-           .find_element_by_tag_name('a')
-           .get_attribute('href'))
+    browser.get(__plugin_url)
+    sleep(0.5)
+    max_tries = 10
+    url = None
+    for i in range(0, max_tries):
+        try:
+            if i:
+                print('..failed..retry {}'.format(i))
+            url = (browser.find_element_by_class_name('_download')
+                   .find_element_by_tag_name('a')
+                   .get_attribute('href'))
+        except NoSuchElementException:
+            sleep(0.5)
+            continue
+        break
+    if not url:
+        raise Exception("Unable to parse page at: {}".format(__plugin_url))
     browser.quit()
     HiddenDisplay.stop()
     return url
