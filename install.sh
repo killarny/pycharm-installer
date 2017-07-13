@@ -61,17 +61,17 @@ echo "Installing your plugins and bundles.."
 mkdir -p $pycharm/config/plugins
 cd $pycharm/config/plugins
 # codeglance
-wget --trust-server-names $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7275)
+wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7275)
 # .ignore
-wget --trust-server-names $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7495)
+wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7495)
 # markdown navigator
-wget --trust-server-names $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7896)
+wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7896)
 # bashsupport
-wget --trust-server-names $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 4230)
+wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 4230)
 # git flow integration
-wget --trust-server-names $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7315)
+wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7315)
 # docker integration
-wget --trust-server-names $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7724)
+wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7724)
 find . -name '*.zip' -print0 | xargs -0 -I {} -P 10 unzip -qq {}
 cd -
 
