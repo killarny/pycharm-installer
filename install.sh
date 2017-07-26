@@ -27,6 +27,10 @@ echo "Downloading latest PyCharm release.."
 echo "  (will show a browser window; close browser when download finished)"
 PATH=$PATH:$workdir python $rundir/geturl.py --directory=$workdir
 echo "  unpacking PyCharm.."
+if [ ! -f pycharm*.tar.gz ]; then
+  echo "ERROR: cannot find downloaded PyCharm release!"
+  exit 1
+fi
 tar zxf pycharm*.tar.gz
 rm pycharm*.tar.gz
 mv pycharm* $workdir/unpacked
