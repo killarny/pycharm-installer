@@ -9,28 +9,43 @@ icon_url=https://d3nmt5vlzunoa1.cloudfront.net/pycharm/files/2015/12/PyCharm_400
 
 echo "Preparing your environment.."
 echo "  (this may ask for a sudo password to install some requirements)"
-rm -rf $workdir
-mkdir $workdir
-sudo apt-get install -y xvfb
-pip install -U pyvirtualdisplay selenium
 
-# install browser driver since selenium annoyingly doesn't handle that for us
-cd $workdir
-latest_driver_version=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE |cat)
-wget -q https://chromedriver.storage.googleapis.com/$latest_driver_version/chromedriver_linux64.zip
-unzip chromedriver_linux64.zip
-rm chromedriver_linux64.zip
-cd -
+# look in the user's downloads for a pycharm release
+if [ -f ${HOME}/Downloads/pycharm*.tar.gz ]; then
+  echo "Found existing PyCharm release in ~/Downloads"
+  echo "  (copying it to a working directory)"
+  mkdir -p $workdir
+  cp ${HOME}/Downloads/pycharm*.tar.gz $workdir
+fi
 
-cd $workdir
-echo "Downloading latest PyCharm release.."
-echo "  (will show a browser window; close browser when download finished)"
-PATH=$PATH:$workdir python $rundir/geturl.py --directory=$workdir
+if [ ! -f $workdir/pycharm*.tar.gz ]; then
+  # pycharm release not found, so try to download it
+  rm -rf $workdir
+  mkdir -p $workdir
+  sudo apt-get install -y xvfb
+  pip install -U pyvirtualdisplay selenium
+  
+  # install browser driver since selenium annoyingly doesn't handle that for us
+  cd $workdir
+  latest_driver_version=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE |cat)
+  wget -q https://chromedriver.storage.googleapis.com/$latest_driver_version/chromedriver_linux64.zip
+  unzip chromedriver_linux64.zip
+  rm chromedriver_linux64.zip
+  cd -
+  
+  cd $workdir
+  echo "Downloading latest PyCharm release.."
+  echo "  (will show a browser window; close browser when download finished)"
+  PATH=$PATH:$workdir python $rundir/geturl.py --directory=$workdir
+  cd -
+fi
+
 echo "  unpacking PyCharm.."
-if [ ! -f pycharm*.tar.gz ]; then
+if [ ! -f $workdir/pycharm*.tar.gz ]; then
   echo "ERROR: cannot find downloaded PyCharm release!"
   exit 1
 fi
+cd $workdir
 tar zxf pycharm*.tar.gz
 rm pycharm*.tar.gz
 mv pycharm* $workdir/unpacked
