@@ -76,6 +76,10 @@ wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plug
 wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7315)
 # docker integration
 wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7724)
+# key promoter
+wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 9792)
+# bootstrap 4 & font awesome
+wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 9341)
 find . -name '*.zip' -print0 | xargs -0 -I {} -P 10 unzip -qq {}
 cd -
 
