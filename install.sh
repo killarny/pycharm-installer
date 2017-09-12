@@ -25,14 +25,19 @@ rm chromedriver_linux64.zip
 cd -
 
 # look in the user's downloads for a pycharm release
+echo "Searching in ${HOME}/Downloads for an existing release download.."
 if [ -f ${HOME}/Downloads/pycharm*.tar.gz ]; then
+  echo
   echo "Found existing PyCharm release in ~/Downloads"
   echo "  (copying it to a working directory)"
   cp ${HOME}/Downloads/pycharm*.tar.gz $workdir
+else
+  echo "Existing release download not found."
 fi
 
 if [ ! -f $workdir/pycharm*.tar.gz ]; then
   cd $workdir
+  echo
   echo "Downloading latest PyCharm release.."
   echo "  (will show a browser window; close browser when download finished)"
   PATH=$PATH:$workdir python $rundir/geturl.py --directory=$workdir
@@ -42,6 +47,9 @@ fi
 echo "  unpacking PyCharm.."
 if [ ! -f $workdir/pycharm*.tar.gz ]; then
   echo "ERROR: cannot find downloaded PyCharm release!"
+  echo "  (try opening https://www.jetbrains.com/pycharm/download/"
+  echo "   in your browser, download the release, and run this "
+  echo "   script again.)"
   exit 1
 fi
 cd $workdir
