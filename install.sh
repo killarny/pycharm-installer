@@ -13,7 +13,7 @@ echo "  (this may ask for a sudo password to install some requirements)"
 # set up workdir and selenium
 rm -rf $workdir
 mkdir -p $workdir
-sudo apt-get install -y xvfb
+sudo apt-get install -y xvfb curl wget python-pip
 pip install -U pyvirtualdisplay selenium
 
 # install browser driver since selenium annoyingly doesn't handle that for us
