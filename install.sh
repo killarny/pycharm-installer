@@ -90,8 +90,6 @@ cd $pycharm/config/plugins
 wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7275)
 # .ignore
 wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7495)
-# markdown navigator
-wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7896)
 # bashsupport
 wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 4230)
 # git flow integration
