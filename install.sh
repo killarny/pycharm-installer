@@ -82,26 +82,26 @@ mkdir $pycharm
 # copy preserved configs
 cp -r $rundir/config $pycharm/config
 
-echo "Installing your plugins and bundles.."
-# install plugins
-mkdir -p $pycharm/config/plugins
-cd $pycharm/config/plugins
-# codeglance
-wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7275)
-# .ignore
-wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7495)
-# bashsupport
-wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 4230)
-# git flow integration
-wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7315)
-# docker integration
-wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7724)
-# key promoter
-wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 9792)
-# bootstrap 4 & font awesome
-wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 9341)
-find . -name '*.zip' -print0 | xargs -0 -I {} -P 10 unzip -qq {}
-cd -
+# echo "Installing your plugins and bundles.."
+# # install plugins
+# mkdir -p $pycharm/config/plugins
+# cd $pycharm/config/plugins
+# # codeglance
+# wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7275)
+# # .ignore
+# wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7495)
+# # bashsupport
+# wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 4230)
+# # git flow integration
+# wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7315)
+# # docker integration
+# wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7724)
+# # key promoter
+# wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 9792)
+# # bootstrap 4 & font awesome
+# wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 9341)
+# find . -name '*.zip' -print0 | xargs -0 -I {} -P 10 unzip -qq {}
+# cd -
 
 # textmate bundles
 cd $workdir
