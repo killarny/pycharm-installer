@@ -10,19 +10,24 @@ icon_url=https://d3nmt5vlzunoa1.cloudfront.net/pycharm/files/2015/12/PyCharm_400
 echo "Preparing your environment.."
 echo "  (this may ask for a sudo password to install some requirements)"
 
-# set up workdir and selenium
+# install requirements
+sudo apt-get install -y curl git
+
+# set up workdir
 rm -rf $workdir
 mkdir -p $workdir
-sudo apt-get install -y xvfb curl wget python-pip
-pip install -U pyvirtualdisplay selenium
+
+# set up selenium
+#sudo apt-get install -y xvfb wget python-pip
+#pip install -U pyvirtualdisplay selenium
 
 # install browser driver since selenium annoyingly doesn't handle that for us
-cd $workdir
-latest_driver_version=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE |cat)
-wget -q https://chromedriver.storage.googleapis.com/$latest_driver_version/chromedriver_linux64.zip
-unzip chromedriver_linux64.zip
-rm chromedriver_linux64.zip
-cd -
+#cd $workdir
+#latest_driver_version=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE |cat)
+#wget -q https://chromedriver.storage.googleapis.com/$latest_driver_version/chromedriver_linux64.zip
+#unzip chromedriver_linux64.zip
+#rm chromedriver_linux64.zip
+#cd -
 
 # look in the user's downloads for a pycharm release
 echo "Searching in ${HOME}/Downloads for an existing release download.."
@@ -35,14 +40,14 @@ else
   echo "Existing release download not found."
 fi
 
-if [ ! -f $workdir/pycharm*.tar.gz ]; then
-  cd $workdir
-  echo
-  echo "Downloading latest PyCharm release.."
-  echo "  (will show a browser window; close browser when download finished)"
-  PATH=$PATH:$workdir python $rundir/geturl.py --directory=$workdir
-  cd -
-fi
+#if [ ! -f $workdir/pycharm*.tar.gz ]; then
+#  cd $workdir
+#  echo
+#  echo "Downloading latest PyCharm release.."
+#  echo "  (will show a browser window; close browser when download finished)"
+#  PATH=$PATH:$workdir python $rundir/geturl.py --directory=$workdir
+#  cd -
+#fi
 
 echo "  unpacking PyCharm.."
 if [ ! -f $workdir/pycharm*.tar.gz ]; then
