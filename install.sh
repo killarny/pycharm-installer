@@ -1,6 +1,6 @@
 #! /bin/bash
 
-pycharm=${HOME}/.PyCharm2019.2
+pycharm=${HOME}/.PyCharm2019.3
 java_userprefs=${HOME}/.java/.userPrefs/jetbrains
 jb_share=${HOME}/.local/share/JetBrains
 workdir=${HOME}/.__pycharm_installer
