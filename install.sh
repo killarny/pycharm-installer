@@ -13,6 +13,12 @@ echo "  (this may ask for a sudo password to install some requirements)"
 # install requirements
 sudo apt-get install -y curl git
 
+echo "Installing JDK.."
+sudo add-apt-repository -y ppa:linuxuprising/java
+echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
+DEBIAN_FRONTEND=noninteractive sudo apt-get install -qqy oracle-java14-installer
+
 # set up workdir
 rm -rf $workdir
 mkdir -p $workdir
@@ -63,18 +69,6 @@ rm pycharm*.tar.gz
 mv pycharm* $workdir/unpacked
 cd -
 
-# TODO: improve this check for java
-if [ -f /etc/apt/sources.list.d/webupd8team-java.list ]; then
-  echo "JDK (probably) already installed, yay!"
-else
-  echo "Installing JDK.."
-  echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | sudo tee /etc/apt/sources.list.d/webupd8team-java.list
-  echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | sudo tee -a /etc/apt/sources.list.d/webupd8team-java.list
-  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 2>> /dev/null
-  echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
-  echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
-  sudo apt-get update -qq && DEBIAN_FRONTEND=noninteractive sudo apt-get install -qqy oracle-java8-installer
-fi
 
 echo "Removing your old PyCharm configuration.."
 rm -rf $pycharm
