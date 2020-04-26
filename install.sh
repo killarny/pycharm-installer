@@ -23,18 +23,6 @@ DEBIAN_FRONTEND=noninteractive sudo apt-get install -qqy oracle-java14-installer
 rm -rf $workdir
 mkdir -p $workdir
 
-# set up selenium
-#sudo apt-get install -y xvfb wget python-pip
-#pip install -U pyvirtualdisplay selenium
-
-# install browser driver since selenium annoyingly doesn't handle that for us
-#cd $workdir
-#latest_driver_version=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE |cat)
-#wget -q https://chromedriver.storage.googleapis.com/$latest_driver_version/chromedriver_linux64.zip
-#unzip chromedriver_linux64.zip
-#rm chromedriver_linux64.zip
-#cd -
-
 # look in the user's downloads for a pycharm release
 echo "Searching in ${HOME}/Downloads for an existing release download.."
 if [ -f ${HOME}/Downloads/pycharm*.tar.gz ]; then
@@ -45,15 +33,6 @@ if [ -f ${HOME}/Downloads/pycharm*.tar.gz ]; then
 else
   echo "Existing release download not found."
 fi
-
-#if [ ! -f $workdir/pycharm*.tar.gz ]; then
-#  cd $workdir
-#  echo
-#  echo "Downloading latest PyCharm release.."
-#  echo "  (will show a browser window; close browser when download finished)"
-#  PATH=$PATH:$workdir python $rundir/geturl.py --directory=$workdir
-#  cd -
-#fi
 
 echo "  unpacking PyCharm.."
 if [ ! -f $workdir/pycharm*.tar.gz ]; then
@@ -69,7 +48,6 @@ rm pycharm*.tar.gz
 mv pycharm* $workdir/unpacked
 cd -
 
-
 echo "Removing your old PyCharm configuration.."
 rm -rf $pycharm
 rm -rf $java_userprefs
@@ -80,27 +58,6 @@ mkdir $pycharm
 
 # copy preserved configs
 cp -r $rundir/config $pycharm/config
-
-# echo "Installing your plugins and bundles.."
-# # install plugins
-# mkdir -p $pycharm/config/plugins
-# cd $pycharm/config/plugins
-# # codeglance
-# wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7275)
-# # .ignore
-# wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7495)
-# # bashsupport
-# wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 4230)
-# # git flow integration
-# wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7315)
-# # docker integration
-# wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 7724)
-# # key promoter
-# wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 9792)
-# # bootstrap 4 & font awesome
-# wget --content-disposition $(PATH=$PATH:$workdir python $rundir/geturl.py --plugin 9341)
-# find . -name '*.zip' -print0 | xargs -0 -I {} -P 10 unzip -qq {}
-# cd -
 
 # textmate bundles
 cd $workdir
